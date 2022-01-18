@@ -1,0 +1,31 @@
+destination: docs
+
+reference:
+- title: File Handlers
+  desc: File handlers for Cloud Files
+- contents:
+  - cloud_file
+  - onedrive_file
+  - sharepoint_file
+  - close.cloud_file
+  - open.cloud_file
+  - summary.cloud_file
+- title: Alternative Handlers
+  desc: Tools for functions that don't accept file connection objects
+- contents:
+  - source_file
+  - get_file_connection
+  - get_cloud_file
+  - update_local_file
+  - upload_cloud_file
+  - get_drive
+- title: Helpers
+  desc: Other assorted tools
+- contents:
+  - ms365_help
+  - get_local_filename
+  - get_cloud_filename
+  - get_file_timestamp
+  - starts_with('is')
+  - file_is_current
+
