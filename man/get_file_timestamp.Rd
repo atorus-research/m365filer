@@ -25,6 +25,6 @@ available for handling local files vs. SharePoint
 get_file_timestamp('/some/local/file.txt')
 
 sp_file <- sharepoint_file('/some/sharepoint/file.txt')
-get_file_timestamp(sp_file, sp_drive = getOption('atorusdepot.spdrive'))
+get_file_timestamp(sp_file, sp_drive = getOption('m365filer.spdrive'))
 
 }

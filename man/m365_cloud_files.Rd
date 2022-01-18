@@ -8,9 +8,9 @@
 \usage{
 cloud_file(path, drive, ...)
 
-sharepoint_file(path, drive = getOption("atorusdepot.spdrive"), ...)
+sharepoint_file(path, drive = getOption("m365filer.spdrive"), ...)
 
-onedrive_file(path, drive = getOption("atorusdepot.onedrive"), ...)
+onedrive_file(path, drive = getOption("m365filer.onedrive"), ...)
 }
 \arguments{
 \item{path}{File path in SharePoint or OneDrive}
@@ -39,7 +39,7 @@ itself, the file connection is closed and the file is uploaded directly into
 the cloud using the Microsoft365R \code{ms_drive} object provided (Note this only
 happens when the mode of the file was opened to write the file. If the mode
 was read only then no uploading is performed). If your setup has been done for
-{atorusdepot} properly, the \code{sharepoint_file()} and \code{onedrive_file()}
+{m365filer} properly, the \code{sharepoint_file()} and \code{onedrive_file()}
 functions will automatically detect the proper drive object. \code{cloud_file()}
 has a drive parameter that can be used to provide your own connection to an
 \code{ms_drive} object from the Microsoft365R package.
@@ -58,8 +58,8 @@ mtcars \%>\%
 mtcars \%>\%
   write.csv(
     cloud_file("Documents/test.csv"),
-    drive = getOption('atorusdepot.onedrive')
+    drive = getOption('m365filer.onedrive')
   )
-  
+
 }
 \concept{Microsoft 365 Cloud Paths}

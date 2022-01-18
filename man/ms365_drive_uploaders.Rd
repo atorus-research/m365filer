@@ -35,7 +35,7 @@ will be a better option for uploading files to OneDrive or SharePoint. See
 These functions handle the necessary process to take a file and place it on
 either SharePoint or OneDrive without leaving a local artifact. This is done
 by leveraging the automatically created OneDrive and SharePoint \code{ms_drive}
-objects stored within the {atorusdepot} package, but the user may provide
+objects stored within the {m365filer} package, but the user may provide
 their own \code{ms_drive} object by using upload_cloud_file.
 
 This function works by taking a writer object as a function. For example, if
@@ -61,7 +61,7 @@ mtcars \%>\%
   upload_cloud_file(
     write.csv,
     "Leadership Team/oversight/test.csv",
-    drive = getOption('atorusdepot.spdrive')
+    drive = getOption('m365filer.spdrive')
   )
 
 mtcars \%>\%

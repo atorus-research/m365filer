@@ -2,23 +2,21 @@
 % Please edit documentation in R/helpers.R
 \name{ms365_help}
 \alias{ms365_help}
-\title{Microsoft 365 File Access for {atorusdepot}}
+\title{Microsoft 365 File Access for {m365filer}}
 \usage{
 ms365_help()
 }
 \description{
 Accessing Microsoft 365 files is a bit tricky to do in R, as it's not as
-simple as providing a URL path to an associated file. As such, {atorusdepot}
+simple as providing a URL path to an associated file. As such, {m365filer}
 has some tooling built in to make the process (slightly) easier. This is all
 built on top of the Microsoft365R package, built and maintained by the Azure
 team.
 }
 \details{
-{atorusdepot} has setup instructions to point to the location of the separate
-department files stored in either OneDrive of SharePoint. To set these files
-as OneDrive or SharePoint file, follow these steps:
+To set these files as OneDrive or SharePoint file, follow these steps:
 \itemize{
-\item For SharePoint, the option "atorusdepot.sharepoint" must be
+\item For SharePoint, the option "m365filer.sharepoint" must be
 set to the appropriate SharePoint site. For pages like Microsoft Teams - the
 SharePoint site would be the name of the teams channel.
 \item When setting the file path options in your .Rprofile, specify the path to
@@ -35,8 +33,6 @@ on OneDrive.
 \itemize{
 \item For SharePoint, assign the origin as 'sharepoint'.
 \item For OneDrive, assign the origin as 'onedrive'.
-#' * When you load the package, if Microsoft365R is not installed, {atorusdepot}
-will prompt you if you'd like to install. Select "Y" to install.
 }
 \item If it's the first time you're setting up this package, there will be some
 setup steps necessary. This will trigger on the first load of the package.

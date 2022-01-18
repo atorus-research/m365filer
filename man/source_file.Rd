@@ -22,7 +22,7 @@ connection object based on the \code{source_file} object created.
 \details{
 Since file connections are eliminated and garbage collected once they're
 closed, they're unreliable as persistent objects in your R session. To get
-around this, {atorusdepot} creates the file connections on demand. To
+around this, {m365filer} creates the file connections on demand. To
 preserve the automation of this, this object is created, which feeds into
 \code{get_file_connection()} to return a connection object, which is then used to
 interface with OneDrive or SharePoint as necessary

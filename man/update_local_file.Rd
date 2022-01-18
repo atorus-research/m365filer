@@ -9,9 +9,6 @@ update_local_file(file)
 \arguments{
 \item{file}{A cloud_file object}
 }
-\value{
-
-}
 \description{
 OneDrive files must be downloaded before they can be accessed. This function
 updates the local version of the file by extracting the respective drive

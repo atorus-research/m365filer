@@ -7,14 +7,14 @@
 get_file_connection(file)
 }
 \arguments{
-\item{file}{}
+\item{file}{A source file object}
 }
 \value{
-
+A cloud_file object or file path
 }
 \description{
 Using a source file object, this function returns the file connection object.
-{atorusdepot} has file connection objects built for cloud files in the
+{m365filer} has file connection objects built for cloud files in the
 cloud_file object. This object is abstracted to sharepoint files and onedrive
 files, both of which sit on the ms_drive object from the Microsoft365R
 package.
