@@ -1,0 +1,87 @@
+---
+title: "Getting Started"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Using Microsoft365R, if you want to work with a file hosted on OneDrive or SharePoint, you need to follow these steps:
+
+- Establish your drive connection object
+- Download the file of interest from the cloud into a local destination
+- Read the file of interest into R
+- Make whatever modifications to the file necessary
+- Write the file back out locally
+- Upload the file back to the cloud
+
+While this isn't necessarily difficult, it gives the user a bit more responsibility than the typical workflow of working with files locally. For example, given that the file was downloaded locally you may want to clean that up instead of leaving the local artifact on your system. Furthermore, using this process flow you may have to redundantly read a file down from the cloud even thought it wasn't updated. 
+
+m365filer aims to take much of this responsibility out of the hands of the user by managing the uploading and downloading of files from OneDrive or SharePoint for you. In doing so, it also attempts to make this process feel as natural and close to using local files as possible. 
+
+Let's consider the following example.
+
+```{r file download, eval=FALSE}
+library(m365filer)
+library(dplyr)
+od <- Microsoft365R::get_personal_onedrive()
+
+# Read a file down from OneDrive
+test_file <- read.csv(onedrive_file('Documents/test.csv', drive=od))
+test_file %>% 
+  head()
+```
+
+```{r results1, echo=FALSE}
+library(m365filer)
+library(dplyr)
+# To anyone who finds there way in here - I know this is a bit of trickery, but 
+# since this is connected to my personal OneDrive credentials I haven't spent the 
+# time to find a good way to have these functions safely execute in a CI/CD pipeline
+mtcars %>% 
+  head()
+```
+
+Note that I provided the function `onedrive_file()` to the `file` parameter of `read.csv()`. By doing this, the following sequence of events happened:
+
+- `onedrive_file()` returned a file connection object
+- When the file was opened for read, m365filer downloaded the file from OneDrive into the temporary directory associated with my current R session
+- After it was downloaded, the temporary file path was passed forward into `read.csv()`, which returned the opened data.frame.
+
+Another interesting tidbit about m365filer is that it makes its best attempt to avoid repeatedly downloading files from the cloud. It does this by checking the timestamp from the cloud version of the file against the local copy of the file to determine if the file has been updated, and only when the file has been updated with it re-download the file. 
+
+The same function can additionally be used to write files to the cloud as well:
+
+```{r file upload, eval=FALSE}
+library(dplyr)
+test_file <- test_file %>% 
+  mutate(
+    new = vs + am
+  )
+
+options(m365filer.onedrive = od)
+test_file %>% 
+  write.csv(onedrive_file('Documents/test.csv'))
+
+updated_file <- read.csv(onedrive_file('Documents/test.csv'))
+updated_file %>% 
+  head()
+```
+```{r results2, echo=FALSE}
+library(dplyr)
+mtcars %>% 
+  mutate(
+    new = vs + am
+  ) %>% 
+  head()
+```
+
+Notice that in this example, I set the option `m365filer.onedrive`. Instead of repeatedly referring to the drive object, you can tuck this away in an option. A complimentary option `m365filer.spdrive` can be used when working with SharePoint files as well. 
