@@ -6,7 +6,7 @@
 #'
 #' Since file connections are eliminated and garbage collected once they're
 #' closed, they're unreliable as persistent objects in your R session. To get
-#' around this, {atorusdepot} creates the file connections on demand. To
+#' around this, {m365filer} creates the file connections on demand. To
 #' preserve the automation of this, this object is created, which feeds into
 #' `get_file_connection()` to return a connection object, which is then used to
 #' interface with OneDrive or SharePoint as necessary
@@ -22,7 +22,7 @@
 #' source_file('some/file/path.txt', 'local')
 #' source_file('some/file/path.txt', 'onedrive')
 #' source_file('some/file/path.txt', 'sharepoint')
-#' 
+#'
 source_file <- function(path, origin = "local") {
   structure(
     path,
@@ -33,16 +33,16 @@ source_file <- function(path, origin = "local") {
 
 #' Access method to read the file origin
 #'
-#' @param file 
+#' @param file A source_file object or character string
 #' @noRd
 #'
 #' @return file origin as a character string
 get_file_origin <- function(file) {
-  
+
   if (!is.character(file)) {
     stop('Must be a source_file object or character string', call.=FALSE)
   }
-  
+
   origin <- attr(file, 'origin')
   if (is.null(origin)) {
     origin <- "local"
@@ -53,7 +53,7 @@ get_file_origin <- function(file) {
 #' Get File Connection
 #'
 #' Using a source file object, this function returns the file connection object.
-#' {atorusdepot} has file connection objects built for cloud files in the
+#' {m365filer} has file connection objects built for cloud files in the
 #' cloud_file object. This object is abstracted to sharepoint files and onedrive
 #' files, both of which sit on the ms_drive object from the Microsoft365R
 #' package.
@@ -65,9 +65,9 @@ get_file_origin <- function(file) {
 #' are leveraged to minimize the amount of interface that your local device has
 #' to do with the cloud
 #'
-#' @param file
+#' @param file A source file object
 #'
-#' @return
+#' @return A cloud_file object or file path
 #' @export
 #'
 #' @examples
@@ -77,10 +77,10 @@ get_file_origin <- function(file) {
 #' mtcars %>% write.csv(get_file_connection(x))
 #'
 #' y <- read.csv(get_file_connection(x))
-#' 
+#'
 get_file_connection <- function(file) {
   origin <- get_file_origin(file)
-  
+
   if (origin == "sharepoint") {
     return(sharepoint_file(file))
   } else if (origin == "onedrive") {
@@ -88,5 +88,5 @@ get_file_connection <- function(file) {
   } else {
     return(as.character(file))
   }
-  
+
 }

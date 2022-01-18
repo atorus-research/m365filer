@@ -7,7 +7,7 @@
 #' These functions handle the necessary process to take a file and place it on
 #' either SharePoint or OneDrive without leaving a local artifact. This is done
 #' by leveraging the automatically created OneDrive and SharePoint `ms_drive`
-#' objects stored within the {atorusdepot} package, but the user may provide
+#' objects stored within the {m365filer} package, but the user may provide
 #' their own `ms_drive` object by using upload_cloud_file.
 #'
 #' This function works by taking a writer object as a function. For example, if
@@ -45,7 +45,7 @@
 #'   upload_cloud_file(
 #'     write.csv,
 #'     "Leadership Team/oversight/test.csv",
-#'     drive = getOption('atorusdepot.spdrive')
+#'     drive = getOption('m365filer.spdrive')
 #'   )
 #'
 #' mtcars %>%
@@ -60,22 +60,22 @@
 #'     "Documents/test.csv"
 #'  )
 upload_cloud_file <- function(x, writer, file, drive, ...) {
-  
+
   if (!inherits(drive, 'ms_drive')) {
     stop('Drive object must be an ms_drive object from the Microsoft365R package',
          call. = FALSE)
   }
-  
+
   # Create a tempfile and use the writer to write it out
   tmp <- tempfile()
-  
-  # This makes a weak assumption that the destination filepath is the 
-  # second parameter. 
+
+  # This makes a weak assumption that the destination filepath is the
+  # second parameter.
   writer(x, tmp, ...)
-  
+
   # Use the drive object to upload the file
   drive$upload_file(tmp, dest = file)
-  
+
   # Delete the temp file
   file.remove(tmp)
   invisible()
@@ -85,12 +85,12 @@ upload_cloud_file <- function(x, writer, file, drive, ...) {
 #' @family Micrsoft 365 Drive Uploaders
 #' @rdname ms365_drive_uploaders
 upload_sharepoint_file <- function(x, writer, file,  ...) {
-  upload_cloud_file(x, writer, file, drive=getOption('atorusdepot.spdrive'), ...)
-}  
+  upload_cloud_file(x, writer, file, drive=getOption('m365filer.spdrive'), ...)
+}
 
 #' @export
 #' @family Micrsoft 365 Drive Uploaders
 #' @rdname ms365_drive_uploaders
 upload_onedrive_file <- function(x, writer, file,  ...) {
-  upload_cloud_file(x, writer, file, drive=getOption('atorusdepot.onedrive'), ...)
+  upload_cloud_file(x, writer, file, drive=getOption('m365filer.onedrive'), ...)
 }
