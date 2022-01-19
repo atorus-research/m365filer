@@ -13,7 +13,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 Welcome! If you haven’t seen Microsoft’s
 [Microsoft365R](https://github.com/Azure/Microsoft365R) package, I
 suggest you check it out! It provides a sleek, high level interface into
-Microsoft’s Graph API= leveraging the facilities provided by the
+Microsoft’s Graph API leveraging the facilities provided by the
 [AzureGraph](https://cran.r-project.org/package=AzureGraph) package.
 
 The aim of m365filer is much more simple in scope. While Microsoft365R
@@ -52,6 +52,7 @@ library(m365filer)
 # Get ms_drive object
 od <- Microsoft365R::get_personal_onedrive()
 #> Loading Microsoft Graph login for tenant 'consumers'
+#> Access token has expired or is no longer valid; refreshing
 od
 #> <Personal OneDrive of Mike Stackhouse>
 #>   directory id: 3cd3250ef3665b2e 
@@ -90,3 +91,18 @@ read.csv(onedrive_file('Documents/example.csv', drive=od)) %>%
 #> 5 Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
 #> 6           Valiant 18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
 ```
+
+## An Important Note
+
+This package is experimental! As such, I’m not heavily committed to
+function APIs and this package is generally subject to change.
+
+## Want to help?
+
+If you want to get your hands dirty, I’d love your input! If you have
+suggestions, corrections, ideas, or requests - drop an issue
+[here](https://github.com/atorus-research/m365filer/issues) on GitHub.
+
+An area in particular that I could truly use assistance is with a unit
+testing framework. The interface with Microsoft 365 systems makes this a
+bit complex.

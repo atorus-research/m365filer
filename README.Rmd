@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental-1)
 <!-- badges: end -->
 
-Welcome! If you haven't seen Microsoft's [Microsoft365R](https://github.com/Azure/Microsoft365R) package, I suggest you check it out! It provides a sleek, high level interface into Microsoft's Graph API= leveraging the facilities provided by the [AzureGraph](https://cran.r-project.org/package=AzureGraph) package.
+Welcome! If you haven't seen Microsoft's [Microsoft365R](https://github.com/Azure/Microsoft365R) package, I suggest you check it out! It provides a sleek, high level interface into Microsoft's Graph API leveraging the facilities provided by the [AzureGraph](https://cran.r-project.org/package=AzureGraph) package.
 
 
 The aim of m365filer is much more simple in scope. While Microsoft365R has broad range of capabilities, m365filer focuses only on file handling and interfacing with Microsoft drives such as OneDrive and SharePoint. The specific goal of m365filer is to make the experience of reading and writing files to OneDrive feel more natural and intuitive to your typical R Programmer. 
@@ -56,3 +56,12 @@ read.csv(onedrive_file('Documents/example.csv', drive=od)) %>%
   head()
 ```
 
+## An Important Note
+
+This package is experimental! As such, I'm not heavily committed to function APIs and this package is generally subject to change. 
+
+## Want to help?
+
+If you want to get your hands dirty, I'd love your input! If you have suggestions, corrections, ideas, or requests - drop an issue [here](https://github.com/atorus-research/m365filer/issues) on GitHub. 
+
+An area in particular that I could truly use assistance is with a unit testing framework. The interface with Microsoft 365 systems makes this a bit complex.
