@@ -58,7 +58,14 @@
   </ul>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/atorus-research/m365filer/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -74,7 +81,7 @@
       <h1 data-toc-skip>Getting Started</h1>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/atorus-research/m365filer/blob/HEAD/vignettes/m365filer.Rmd" class="external-link"><code>vignettes/m365filer.Rmd</code></a></small>
       <div class="hidden name"><code>m365filer.Rmd</code></div>
 
     </div>
@@ -94,7 +101,7 @@
 <p>m365filer aims to take much of this responsibility out of the hands of the user by managing the uploading and downloading of files from OneDrive or SharePoint for you. In doing so, it also attempts to make this process feel as natural and close to using local files as possible.</p>
 <p>Let’s consider the following example.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">m365filer</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/atorus-research/m365filer" class="external-link">m365filer</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
 <span class="va">od</span> <span class="op">&lt;-</span> <span class="fu">Microsoft365R</span><span class="fu">::</span><span class="fu">get_personal_onedrive</span><span class="op">(</span><span class="op">)</span>
 
