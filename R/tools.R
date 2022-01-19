@@ -8,20 +8,17 @@
 #'
 #' @return File name
 #'
-#' @family File Paths
-#' @rdname file_paths
+#' @noRd
 #'
 #' @examples
-#'
+#' \dontrun{
 #' sp_file <- sharepoint_file('/some/sharepoint/file.txt')
 #' get_local_filename(sp_file)
-#'
+#' }
 get_local_filename <- function(file) {
   attr(file, 'src')
 }
 
-#' @family File Paths
-#' @rdname file_paths
 get_cloud_filename <- function(file) {
   attr(file, 'path')
 }
@@ -37,13 +34,15 @@ get_cloud_filename <- function(file) {
 #' @param ...
 #'
 #' @return Datetime object
+#' @noRd
 #'
 #' @examples
+#' \dontrun{
 #' get_file_timestamp('/some/local/file.txt')
 #'
 #' sp_file <- sharepoint_file('/some/sharepoint/file.txt')
 #' get_file_timestamp(sp_file, sp_drive = getOption('m365filer.spdrive'))
-#'
+#' }
 get_file_timestamp <-function(file, ...) {
   UseMethod("get_file_timestamp", file)
 }
@@ -68,11 +67,13 @@ get_file_timestamp.default <- function(file, ...) {
 #' @param file OneDrive or SharePoint file path (to be passed to API)
 #'
 #' @return Boolean
+#' @noRd
 #'
 #' @examples
+#' \dontrun{
 #' sp_file <- sharepoint_file('/some/sharepoint/file.txt')
 #' file_is_current(sp_file)
-#'
+#' }
 file_is_current <- function(file) {
   cloud_file_date <- get_file_timestamp(file)
   local_file_date <- get_file_timestamp(get_local_filename(file))
@@ -91,12 +92,13 @@ file_is_current <- function(file) {
 #' @param file A cloud_file object
 #'
 #' @return NULL
-#' @export
+#' @noRd
 #'
 #' @examples
+#' \dontrun{
 #' sp_file <- sharepoint_file('some/file/path.txt')
 #' update_local_file(sp_file)
-#'
+#' }
 update_local_file <- function(file) {
   drive <- get_drive(file)
   local_path <- get_local_filename(file)
@@ -119,11 +121,13 @@ update_local_file <- function(file) {
 #' @param .close Boolean - whether or not to close the input file connection
 #'
 #' @return Local filename of the desired file in the R temporary directory
+#' @export
 #'
 #' @examples
+#' \dontrun{
 #' sp_file <- sharepoint_file('/some/sharepoint/file.txt')
 #' get_cloud_file(sp_file)
-#'
+#' }
 get_cloud_file <- function(con, .close=FALSE) {
 
   if (!is_cloud_file(con)) {

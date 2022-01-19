@@ -6,26 +6,26 @@
 #' built on top of the Microsoft365R package, built and maintained by the Azure
 #' team.
 #'
-#'  To set these files as OneDrive or SharePoint file, follow these steps:
+#' To set these files as OneDrive or SharePoint file, follow these steps:
 #'
-#' * For SharePoint, the option "m365filer.sharepoint" must be
-#'   set to the appropriate SharePoint site. For pages like Microsoft Teams - the
-#'   SharePoint site would be the name of the teams channel.
-#' * When setting the file path options in your .Rprofile, specify the path to
-#'   the file using the `source_file()` function available in the example below.
-#'   The first parameter of this is the file path in SharePoint or OneDrive.
-#'   * On OneDrive, the file path would start at the same level
-#'   * On SharePoint, you will first need the root directory of the SharePoint
-#'     drive. This isn't always intuitive, but for the "Design and Technology -
-#'     Leadership Team" SharePoint site, the root directory is "Leadership Team"
-#' * The second parameter indicates whether the file is local, on SharePoint, or
-#'   on OneDrive.
-#'    * For SharePoint, assign the origin as 'sharepoint'.
-#'    * For OneDrive, assign the origin as 'onedrive'.
-#' * If it's the first time you're setting up this package, there will be some
-#'   setup steps necessary. This will trigger on the first load of the package.
+#' * First, you need an appropriate `ms_drive` object. Refer to the Microsoft365R
+#'   documentation for instructions on setting up your connection.
+#' * {m365filer} has a few different functions available to facililate file
+#'   reading, which include \link{sharepoint_file}, \link{onedrive_file}, and
+#'   an alternative approach using \link{source_file}. Refer to Alternative
+#'   Approaches vignette for more information on using source files. As for
+#'   setting your paths on OneDrive or SharePoint, note that:
+#'   * On OneDrive, the file path would start right your local OneDrive file path.
+#'     For example, on my system if my local copy of the file is
+#'     "C:\\Users\\16105\\OneDrive\\Documents\\file.txt", the path reference to OneDrive
+#'     would be 'Documents\\file.txt'.
+#'   * On SharePoint, first note that you need to get the `ms_drive` object _out_ of the
+#'     SharePoint site, as the SharePoint drive is a piece of the SharePoint site itself.
+#'     You will then need the root directory of the SharePoint drive. This isn't always
+#'     intuitive, but for the "My Microsoft Team - General" SharePoint site, the root
+#'     directory is "General".
 #'
-#' Once these setup steps are done, everything else should function as normal.
+#' Once these setup steps are done, everything should function as normal.
 #' You will see intermittent messages from the Microsoft365R API package when
 #' connections are initialized or reset when tokens expire.
 #'
@@ -48,18 +48,21 @@ ms365_help <- function() {
 #' @rdname file_origin_helpers
 #'
 #' @return Boolean
+#' @export
 is_sharepoint_file <- function(f) {
   inherits(f, 'sharepoint_file')
 }
 
 #' @family File Origin Helpers
 #' @rdname file_origin_helpers
+#' @export
 is_onedrive_file <- function(f) {
   inherits(f, 'onedrive_file')
 }
 
 #' @family File Origin Helpers
 #' @rdname file_origin_helpers
+#' @export
 is_cloud_file <- function(f) {
   inherits(f, 'cloud_file')
 }

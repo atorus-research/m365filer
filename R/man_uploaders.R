@@ -41,6 +41,7 @@
 #' @rdname ms365_drive_uploaders
 #'
 #' @examples
+#' \dontrun{
 #' mtcars %>%
 #'   upload_cloud_file(
 #'     write.csv,
@@ -59,6 +60,7 @@
 #'     write.csv,
 #'     "Documents/test.csv"
 #'  )
+#'  }
 upload_cloud_file <- function(x, writer, file, drive, ...) {
 
   if (!inherits(drive, 'ms_drive')) {
