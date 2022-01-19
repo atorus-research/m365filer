@@ -31,12 +31,20 @@ source_file <- function(path, origin = "local") {
   )
 }
 
-#' Access method to read the file origin
+#' Get the origin of a source file
+#'
+#' Return the origin of a file path
 #'
 #' @param file A source_file object or character string
-#' @noRd
 #'
 #' @return file origin as a character string
+#' @export
+#'
+#' @examples
+#'
+#' fpath <- source_file('some/file/path.txt', origin='onedrive')
+#' get_file_origin(fpath)
+#'
 get_file_origin <- function(file) {
 
   if (!is.character(file)) {
@@ -66,25 +74,32 @@ get_file_origin <- function(file) {
 #' to do with the cloud
 #'
 #' @param file A source file object
+#' @param drive An ms_drive object
 #'
 #' @return A cloud_file object or file path
 #' @export
 #'
 #' @examples
-#'
+#' \dontrun{
 #' x <- source_file("Documents/test.csv", "onedrive")
 #'
 #' mtcars %>% write.csv(get_file_connection(x))
 #'
 #' y <- read.csv(get_file_connection(x))
-#'
-get_file_connection <- function(file) {
+#' }
+get_file_connection <- function(file, drive=NULL) {
   origin <- get_file_origin(file)
 
   if (origin == "sharepoint") {
-    return(sharepoint_file(file))
+    if (is.null(drive)) {
+      drive = getOption('m365filer.spdrive')
+    }
+    return(sharepoint_file(file, drive=drive))
   } else if (origin == "onedrive") {
-    return(onedrive_file(file))
+    if (is.null(drive)) {
+      drive = getOption('m365filer.onedrive')
+    }
+    return(onedrive_file(file, drive=drive))
   } else {
     return(as.character(file))
   }
