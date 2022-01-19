@@ -24,7 +24,8 @@ file is always checked before any reading is done to minimize downloads as
 necessary.
 }
 \examples{
+\dontrun{
 sp_file <- sharepoint_file('/some/sharepoint/file.txt')
 get_cloud_file(sp_file)
-
+}
 }

@@ -15,7 +15,7 @@ onedrive_file(path, drive = getOption("m365filer.onedrive"), ...)
 \arguments{
 \item{path}{File path in SharePoint or OneDrive}
 
-\item{drive}{\code{ms_drive} object from the Microsoft365R package}
+\item{drive}{An \code{ms_drive} object from the Microsoft365R package}
 
 \item{...}{Additional parameters - reserved for potential future use}
 }
@@ -23,7 +23,7 @@ onedrive_file(path, drive = getOption("m365filer.onedrive"), ...)
 cloud_file object
 }
 \description{
-These functions allows you to pass a SharePoint or OneDrive file path
+These functions allow you to pass a SharePoint or OneDrive file path
 directly into the destination file parameter of a function. When writing of
 the file is done, the file will automatically be uploaded to SharePoint.
 }
@@ -32,23 +32,27 @@ These functions add an extra level of abstraction to a file connection
 object. Their behavior should be exactly that of a standard file connection,
 such as when you specify a directory path into a writer function like
 \code{write.csv}. Some extra metadata has been added to provide the necessary file
-handling to upload a file to SharePoint or OneDrive.
+handling to upload or download a file to or from SharePoint or OneDrive.
 
-When the file is closed, which is typically handled by the writer function
+When the file is closed, which is typically handled by a writer function
 itself, the file connection is closed and the file is uploaded directly into
 the cloud using the Microsoft365R \code{ms_drive} object provided (Note this only
 happens when the mode of the file was opened to write the file. If the mode
-was read only then no uploading is performed). If your setup has been done for
-{m365filer} properly, the \code{sharepoint_file()} and \code{onedrive_file()}
-functions will automatically detect the proper drive object. \code{cloud_file()}
-has a drive parameter that can be used to provide your own connection to an
-\code{ms_drive} object from the Microsoft365R package.
+was read only then no uploading is performed). Additionally, note that when
+reading a file from OneDrive or SharePoint, the file will only be read from
+the cloud if new updates have been made during the life of the R session.
+This means that redundant downloading will not take place.
+
+To make things easier throughout your session, {m365filer} can make use of
+the options \code{m365filer.onedrive} and \code{m365filer.spdrive}. Proper \code{ms_drive}
+objects from the Microsoft365R package can be stored, and these drives will
+automatically be recognized when calling \code{sharepoint_file()} or \code{onedrive_file()}
 
 For information about how the file path should be specified to properly
 assign the destination of your file, see \code{?ms365_help}.
 }
 \examples{
-
+\dontrun{
 mtcars \%>\%
   write.csv(sharepoint_file("Leadership Team/oversight/test.csv"))
 
@@ -60,6 +64,6 @@ mtcars \%>\%
     cloud_file("Documents/test.csv"),
     drive = getOption('m365filer.onedrive')
   )
-
+}
 }
 \concept{Microsoft 365 Cloud Paths}

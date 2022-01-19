@@ -10,7 +10,7 @@
 \item{path}{cloud_file object}
 }
 \value{
-Nothing
+Summary output of the file connection
 }
 \description{
 Abstraction of the summary method for a connection to layer details for a

@@ -16,29 +16,27 @@ team.
 \details{
 To set these files as OneDrive or SharePoint file, follow these steps:
 \itemize{
-\item For SharePoint, the option "m365filer.sharepoint" must be
-set to the appropriate SharePoint site. For pages like Microsoft Teams - the
-SharePoint site would be the name of the teams channel.
-\item When setting the file path options in your .Rprofile, specify the path to
-the file using the \code{source_file()} function available in the example below.
-The first parameter of this is the file path in SharePoint or OneDrive.
+\item First, you need an appropriate \code{ms_drive} object. Refer to the Microsoft365R
+documentation for instructions on setting up your connection.
+\item {m365filer} has a few different functions available to facililate file
+reading, which include \link{sharepoint_file}, \link{onedrive_file}, and
+an alternative approach using \link{source_file}. Refer to Alternative
+Approaches vignette for more information on using source files. As for
+setting your paths on OneDrive or SharePoint, note that:
 \itemize{
-\item On OneDrive, the file path would start at the same level
-\item On SharePoint, you will first need the root directory of the SharePoint
-drive. This isn't always intuitive, but for the "Design and Technology -
-Leadership Team" SharePoint site, the root directory is "Leadership Team"
+\item On OneDrive, the file path would start right your local OneDrive file path.
+For example, on my system if my local copy of the file is
+"C:\\Users\\16105\\OneDrive\\Documents\\file.txt", the path reference to OneDrive
+would be 'Documents\\file.txt'.
+\item On SharePoint, first note that you need to get the \code{ms_drive} object \emph{out} of the
+SharePoint site, as the SharePoint drive is a piece of the SharePoint site itself.
+You will then need the root directory of the SharePoint drive. This isn't always
+intuitive, but for the "My Microsoft Team - General" SharePoint site, the root
+directory is "General".
 }
-\item The second parameter indicates whether the file is local, on SharePoint, or
-on OneDrive.
-\itemize{
-\item For SharePoint, assign the origin as 'sharepoint'.
-\item For OneDrive, assign the origin as 'onedrive'.
-}
-\item If it's the first time you're setting up this package, there will be some
-setup steps necessary. This will trigger on the first load of the package.
 }
 
-Once these setup steps are done, everything else should function as normal.
+Once these setup steps are done, everything should function as normal.
 You will see intermittent messages from the Microsoft365R API package when
 connections are initialized or reset when tokens expire.
 }

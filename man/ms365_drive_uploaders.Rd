@@ -57,6 +57,7 @@ For information about how the file path should be specified to properly
 assign the destination of your file, see \code{?ms365_help}.
 }
 \examples{
+\dontrun{
 mtcars \%>\%
   upload_cloud_file(
     write.csv,
@@ -75,5 +76,6 @@ mtcars \%>\%
     write.csv,
     "Documents/test.csv"
  )
+ }
 }
 \concept{Micrsoft 365 Drive Uploaders}

@@ -4,10 +4,12 @@
 \alias{get_file_connection}
 \title{Get File Connection}
 \usage{
-get_file_connection(file)
+get_file_connection(file, drive = NULL)
 }
 \arguments{
 \item{file}{A source file object}
+
+\item{drive}{An ms_drive object}
 }
 \value{
 A cloud_file object or file path
@@ -28,11 +30,11 @@ are leveraged to minimize the amount of interface that your local device has
 to do with the cloud
 }
 \examples{
-
+\dontrun{
 x <- source_file("Documents/test.csv", "onedrive")
 
 mtcars \%>\% write.csv(get_file_connection(x))
 
 y <- read.csv(get_file_connection(x))
-
+}
 }
