@@ -18,5 +18,6 @@ Imports:
     lubridate (>= 1.7.0)
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    dplyr (>= 1.0.0)
 VignetteBuilder: knitr
