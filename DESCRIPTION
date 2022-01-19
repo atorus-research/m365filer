@@ -7,12 +7,15 @@ Authors@R:
            role = c("aut", "cre"),
            email = "Mike.Stackhouse@atorusresearch.com",
            comment = c(ORCID = "0000-0001-6030-723X"))
-Description: What the package does (one paragraph).
+Description: The Microsoft365R package enables a great deal of power for interfacing with Microsoft 365 systems. This package streamlines the handling of files when working with Microsoft drives, helping the process feel closer to working with local files.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
+Depends: R (>= 3.5.0)
+Imports:
+    lubridate (>= 1.7.0)
 Suggests: 
     knitr,
     rmarkdown
