@@ -1,0 +1,116 @@
+---
+title: "m365filer for Character Paths"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{m365filer for Character Paths}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include=FALSE}
+library(m365filer)
+library(magrittr)
+library(dplyr)
+```
+
+The entire premise of the `onedrive_file()` and `sharepoint_file()` functions is that they work around file connection objects, which makes things slightly easier to abstract away from the user (minus the quirks of file connection objects in R). Not all functions allow this approach, and some functions only allow a user to pass a character file path, such as functions like `readxl::read_excel()`. Unfortunately, this means that `onedrive_file()` and `sharepoint_file()` won't work and another approach must be used. 
+
+With m365filer, I've provided some tooling to work around this, which just means a couple extra steps. Some separate functions are to provide most of the same benefits.
+
+## Reading a file
+
+So if we can't use file connections, what _can_ we do. Instead of directly serving a file connection, we can use some helper functions to abstract away handling the local file paths. Let's look at an example.
+
+```{r source file intro}
+fpath <- source_file("Documents/test.csv", origin = "onedrive")
+fpath
+```
+
+Starting here, what we've done is create a source file object. The object is very simple - it's really just a character string with some extra attributes. But those attributes tell you where the file is supposed to live. In this example, we've given a path, but additionally indicated that the path is associated with OneDrive. 
+
+The next step is to actually get the file itself. There are two pieces to this:
+
+- Getting the file connection object
+- Getting the file from the cloud
+
+Let's take a look.
+
+```{r file download, eval=FALSE}
+od <- Microsoft365R::get_personal_onedrive()
+file <- get_cloud_file(get_file_connection(fpath, drive=od), .close=TRUE)
+file
+```
+```{r store file path, echo=FALSE}
+file <- "C:\\Users\\16105\\AppData\\Local\\Temp\\Rtmpo7Nf7O/test.csv"
+file
+```
+
+So - what happened here? `get_file_connection()` returns a connection object, which is similar how `sharepoint_file()` and `onedrive_file()` handle their file management. `get_cloud_file()` actually uses the connection object and downloads the file into the R session temporary directory. 
+
+Note the use of `.close`. You might be wondering - if I'm just using a connection object here, why not just use a `sharepoint_file()` or a `onedrive_file()`. Well, file connections in R are a bit quirky. When they're closed, they're eventually cleaned up and destroyed. This makes for an interesting one-time-use sort of scenario, but - you may what to use a file path multiple times. That's why the source_file object exists in the first place; it gives a persistent reference to the file for the life of your session.
+
+Something else to note is that while it's clear that the path returned by `file` is a temporary path, it will be the _same_ temporary path for the life of your session. For example, let's run the same code again.
+
+```{r Get file path again, eval=FALSE}
+file <- get_cloud_file(get_file_connection(fpath, drive=od), .close=TRUE)
+file
+```
+```{r show file path again, echo=FALSE}
+file
+```
+The same file path is returned. Throughout your programming, this local file path can be used. Since it's in the temporary directory, you don't have to worry about cleanup because the system will eventually wipe it out for you. 
+
+Additionally, to restore some of the same benefits of using `sharepoint_file()` or `onedrive_file()`, `get_cloud_file()` will only download a new copy of the file if it's updated, avoiding extra time communication time with the cloud, and potential wait time for you.
+
+One important note, in this case `file` is simply a character string. Unlike `sharepoint_file()` or `onedrive_file()`, this variable itself will _not_ check if the file needs re-downloading. For that, you'll have to use `get_cloud_file()`
+
+## Writing a file
+
+Ok - so we've covered reading for function which don't accept file connection objects. What about writing? Admittedly, this a bit harder to work around elegantly - and I also see this as one of the bigger areas of improvement to m365filer. But, here's what we've got. 
+
+```{r upload cloud file, eval=FALSE}
+# Upload the file
+mtcars %>% 
+  select(mpg, cyl) %>% 
+  upload_cloud_file(
+    write.csv,
+    'Documents/upload_file_test.csv',
+    od
+  )
+
+# Download the example
+read.csv(onedrive_file('Documents/upload_file_test.csv', drive=od)) %>% 
+  head()
+```
+```{r output for upload example, echo=FALSE}
+mtcars %>% 
+  select(mpg, cyl) %>% 
+  head()
+```
+
+If you're leveraging options, there are the additional variants `upload_onedrive_file()` and `upload_sharepoint_file()`, which just remove the need to reference a drive. 
+
+```{r upload onedrive file example, eval=FALSE}
+op <- options('m365filer.onedrive' = get_personal_onedrive())
+mtcars %>% 
+  select(mpg, cyl) %>% 
+  upload_onedrive_file(
+    write.csv,
+    'Documents/upload_file_test.csv'
+  )
+```
+
+Note that the `writer` parameter of these function calls takes a function. There are a couple assumptions here:
+
+- The provided function will write out a file
+- The first parameter of that function is the object be written
+- The second parameter of that function is the file path to which it should be written
+
+These are loose assumptions to say the least, but - a lot of the time they hold up. As stated, this is a huge area of opportunity for improvement. But the initial goal here was to make something that had _vaguely_ the same feel of passing into a writer function directly. 
