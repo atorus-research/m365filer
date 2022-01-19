@@ -9,6 +9,7 @@ Authors@R:
            comment = c(ORCID = "0000-0001-6030-723X"))
 Description: The Microsoft365R package enables a great deal of power for interfacing with Microsoft 365 systems. This package streamlines the handling of files when working with Microsoft drives, helping the process feel closer to working with local files.
 License: MIT + file LICENSE
+URL: https://github.com/atorus-research/m365filer
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
